@@ -3,7 +3,7 @@ package crypto
 import "testing"
 
 func TestXorEncrypt(t *testing.T) {
-	p := StrongifyPassword("Hello world")
+	p := PasswordFortify("Hello world")
 	result := XorEncrypt("Hello world", p)
 
 	if result == "" {

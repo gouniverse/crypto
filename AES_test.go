@@ -3,20 +3,16 @@ package crypto
 import "testing"
 
 func TestAESEncrypt(t *testing.T) {
-	p := StrongifyPassword("Hello world")[:32]
-	result, err := AESEncrypt("Hello world", p)
+	p := PasswordFortify("Hello world")[:32]
+	result, err := AESEncrypt([]byte("Hello world"), p)
 
 	if err != nil {
 		t.Fatal(err.Error())
 	}
 
-	if result == "" {
+	if len(result) < 1 {
 		t.Fatal("result MUST NOT be empty")
 	}
-
-	// if len(result) != 200 {
-	// 	t.Fatal("result MUST BE be 144, was:", len(result))
-	// }
 
 	original, err := AESDecrypt(result, p)
 
@@ -24,7 +20,7 @@ func TestAESEncrypt(t *testing.T) {
 		t.Fatal(err.Error())
 	}
 
-	if original != "Hello world" {
+	if string(original) != "Hello world" {
 		t.Fatal("original MUST match 'Hello world'", original)
 	}
 }

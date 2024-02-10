@@ -8,57 +8,49 @@ import (
 	"io"
 )
 
-func AESEncrypt(input string, key string) (string, error) {
+func AESEncrypt(input []byte, key string) (bytes []byte, err error) {
 	block, err := aes.NewCipher([]byte(key))
 
 	if err != nil {
-		return "", err
+		return bytes, err
 	}
 
 	gcm, err := cipher.NewGCM(block)
 	if err != nil {
-		return "", err
+		return bytes, err
 	}
 
 	nonce := make([]byte, gcm.NonceSize())
 
 	_, err = io.ReadFull(rand.Reader, nonce)
 	if err != nil {
-		return "", err
+		return bytes, err
 	}
 
-	output := Base64Encode(gcm.Seal(nonce, nonce, []byte(input), nil))
-
-	return output, nil
+	return gcm.Seal(nonce, nonce, input, nil), nil
 }
 
-func AESDecrypt(input string, key string) (string, error) {
-	ciphertext, err := Base64Decode(input)
-
-	if err != nil {
-		return "", err
-	}
-
+func AESDecrypt(input []byte, key string) (bytes []byte, err error) {
 	block, err := aes.NewCipher([]byte(key))
 
 	if err != nil {
-		return "", err
+		return bytes, err
 	}
 
 	gcm, err := cipher.NewGCM(block)
 	if err != nil {
-		return "", err
+		return bytes, err
 	}
 
-	if len(ciphertext) < gcm.NonceSize() {
-		return "", errors.New("malformed ciphertext")
+	if len(input) < gcm.NonceSize() {
+		return bytes, errors.New("malformed input")
 	}
 
 	output, err := gcm.Open(nil,
-		ciphertext[:gcm.NonceSize()],
-		ciphertext[gcm.NonceSize():],
+		input[:gcm.NonceSize()],
+		input[gcm.NonceSize():],
 		nil,
 	)
 
-	return string(output), err
+	return output, err
 }

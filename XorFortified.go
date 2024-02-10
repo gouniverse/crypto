@@ -6,8 +6,8 @@ import (
 	"strings"
 )
 
-func ML1Decrypt(value string, password string) (string, error) {
-	strongPassword := StrongifyPassword(password)
+func XorFortifiedDecrypt(value string, password string) (string, error) {
+	strongPassword := PasswordFortify(password)
 	first, err := XorDecrypt(value, strongPassword)
 
 	if err != nil {
@@ -46,8 +46,8 @@ func ML1Decrypt(value string, password string) (string, error) {
 	return string(v2), nil
 }
 
-func ML1Encrypt(value string, password string) string {
-	strongPassword := StrongifyPassword(password)
+func XorFortifiedEncrypt(value string, password string) string {
+	strongPassword := PasswordFortify(password)
 
 	v1 := Base64Encode([]byte(value))
 

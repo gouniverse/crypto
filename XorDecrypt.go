@@ -1,8 +1,8 @@
 package crypto
 
-// xorDecrypt  runs a XOR encryption on the input string
-func XorDecrypt(encstring string, key string) (output string, err error) {
-	inputBytes, err := Base64Decode(encstring)
+// XorDecrypt  runs a XOR decryption on the input string
+func XorDecrypt(encString string, key string) (output string, err error) {
+	inputBytes, err := Base64Decode(encString)
 
 	if err != nil {
 		return "", err
