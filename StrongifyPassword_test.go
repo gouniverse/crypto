@@ -9,8 +9,8 @@ func TestStrongifyPassword(t *testing.T) {
 		t.Fatal("result MUST NOT be empty")
 	}
 
-	if len(result) != 200 {
-		t.Fatal("result MUST BE be 144, was:", len(result))
+	if len(result) != 256 {
+		t.Fatal("result MUST BE be 256, was:", len(result))
 	}
 
 	result2 := StrongifyPassword("Hello world")

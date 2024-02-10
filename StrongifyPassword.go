@@ -11,6 +11,6 @@ func StrongifyPassword(password string) string {
 	p2 := StrToSHA1Hash(p1) + StrToSHA1Hash(p1) + StrToSHA1Hash(p1)
 	p3 := StrToSHA1Hash(p2) + StrToMD5Hash(p2) + StrToSHA1Hash(p2)
 	p4 := StrToSHA256Hash(p3)
-	p5 := StrToSHA1Hash(p4) + StrToSHA256Hash(StrToMD5Hash(p4)) + StrToSHA256Hash(StrToSHA1Hash(p4)) + StrToMD5Hash(p4)
+	p5 := StrToSHA256Hash(p4) + StrToSHA256Hash(StrToMD5Hash(p4)) + StrToSHA256Hash(StrToSHA1Hash(p4)) + StrToSHA256Hash(p4)
 	return p5
 }
