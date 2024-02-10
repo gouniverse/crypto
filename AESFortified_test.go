@@ -2,16 +2,20 @@ package crypto
 
 import "testing"
 
-func TestXorFortified(t *testing.T) {
+func TestAESFortified(t *testing.T) {
 	original := "Hello world"
 	password := "Star Wars"
-	enc := XorFortifiedEncrypt(original, password)
+	enc, err := AESFortifiedEncrypt(original, password)
+
+	if err != nil {
+		t.Fatal(err.Error(), enc)
+	}
 
 	if enc == "" {
 		t.Fatal("enc MUST NOT be empty")
 	}
 
-	dec, err := XorFortifiedDecrypt(enc, password)
+	dec, err := AESFortifiedDecrypt(enc, password)
 
 	if err != nil {
 		t.Fatal(err.Error(), enc)
